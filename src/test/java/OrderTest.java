@@ -13,11 +13,20 @@ public class OrderTest {
     @Test
     void shouldConfirmOrder() {
         open("http://localhost:9999");
-        //SelenideElement form = $("form form_size_m form_theme_alfa-on-white");
         $("[data-test-id=\"name\"] input").setValue("Василий Петров");
         $("[data-test-id=\"phone\"] input").setValue("+79118676755");
         $("[data-test-id=\"agreement\"]").click();
         $(byText("Продолжить")).click();
         $(byText("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.")).shouldBe(visible);
+    }
+
+    @Test
+    void shouldShowErrorMessage() {
+        open("http://localhost:9999");
+        $("[data-test-id=\"name\"] input").setValue("Иван Петров");
+        $("[data-test-id=\"phone\"] input").setValue("79118676755");
+        $("[data-test-id=\"agreement\"]").click();
+        $(byText("Продолжить")).click();
+        $(".input_invalid").shouldBe(visible);
     }
 }
